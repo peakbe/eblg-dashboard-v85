@@ -81,6 +81,9 @@ async function loadMetar() {
     const data = await fetchJSON(ENDPOINTS.metar);
     updateMetarUI(data);
     updateStatusPanel("METAR", data);
+    drawRunway(runway);
+    drawCorridor(runway);
+
 }
 
 function updateMetarUI(data) {
@@ -236,12 +239,12 @@ let corridorLayer = null;
 let corridorArrows = null;
 
 const CORRIDORS = {
-    "07": [
+    "04": [
         [50.700000, 5.300000],
         [50.670000, 5.380000],
         [50.645900, 5.443300]
     ],
-    "25": [
+    "22": [
         [50.600000, 5.600000],
         [50.620000, 5.520000],
         [50.637300, 5.463500]
@@ -301,6 +304,95 @@ function initSonometers(mapInstance) {
             status: "UNKNOWN"
         };
     });
+}
+// =========================
+// PISTES
+// =========================
+
+const RUNWAYS = {
+    "04": {
+        start: [50.645900, 5.443300],
+        end:   [50.637300, 5.463500],
+        color: "blue"
+    },
+    "22": {
+        start: [50.637300, 5.463500],
+        end:   [50.645900, 5.443300],
+        color: "red"
+    }
+};
+
+let runwayLayer = null;
+
+function drawRunway(runway) {
+    if (!map) return;
+
+    if (runwayLayer) {
+        map.removeLayer(runwayLayer);
+    }
+
+    const r = RUNWAYS[runway];
+    if (!r) return;
+
+    runwayLayer = L.polyline([r.start, r.end], {
+        color: r.color,
+        weight: 6,
+        opacity: 0.9
+    }).addTo(map);
+}
+
+// =========================
+// CORRIDORS
+// =========================
+
+let corridorLayer = null;
+let corridorArrows = null;
+
+const CORRIDORS = {
+    "04": [
+        [50.700000, 5.300000],
+        [50.670000, 5.380000],
+        [50.645900, 5.443300]
+    ],
+    "22": [
+        [50.600000, 5.600000],
+        [50.620000, 5.520000],
+        [50.637300, 5.463500]
+    ]
+};
+
+function drawCorridor(runway) {
+    if (!map) return;
+
+    if (corridorLayer) map.removeLayer(corridorLayer);
+    if (corridorArrows) map.removeLayer(corridorArrows);
+
+    const points = CORRIDORS[runway];
+    if (!points) return;
+
+    corridorLayer = L.polyline(points, {
+        color: RUNWAYS[runway].color,
+        weight: 3,
+        opacity: 0.7
+    }).addTo(map);
+
+    corridorArrows = L.polylineDecorator(corridorLayer, {
+        patterns: [
+            {
+                offset: 20,
+                repeat: 40,
+                symbol: L.Symbol.arrowHead({
+                    pixelSize: 10,
+                    polygon: false,
+                    pathOptions: {
+                        stroke: true,
+                        color: RUNWAYS[runway].color,
+                        weight: 2
+                    }
+                })
+            }
+        ]
+    }).addTo(map);
 }
 
 // ======================================================
