@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>EBLG Dashboard PRO+</title>
+
+    <!-- Responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" 
+          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+    <!-- MarkerCluster CSS -->
+    <link rel="stylesheet" 
+          href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css">
+    <link rel="stylesheet" 
+          href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+
+    <!-- ======================================================
+         SIDEBAR
+    ====================================================== -->
+    <div id="sidebar" class="sidebar">
+        <div id="sidebar-toggle" class="sidebar-toggle">☰</div>
+
+        <section class="panel">
+            <h2>Météo</h2>
+            <div id="metar" class="data-block">Chargement METAR…</div>
+            <div id="taf" class="data-block">Chargement TAF…</div>
+        </section>
+
+        <section class="panel">
+            <h2>Piste active</h2>
+            <div id="runway-panel" class="data-block">—</div>
+        </section>
+
+        <section class="panel">
+            <h2>Départs</h2>
+            <div id="fids" class="fids-container">
+                <div class="fids-row">Chargement FIDS…</div>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2 id="sono-header">
+                Sonomètres <span id="sono-toggle">⯆</span>
+            </h2>
+            <div id="sono-panel">
+                <div id="sono-list" class="sono-list"></div>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2>Statut API</h2>
+            <div id="status-panel" class="status-panel"></div>
+        </section>
+    </div>
+
+    <!-- ======================================================
+         DETAIL PANEL
+    ====================================================== -->
+    <div id="detail-panel" class="detail-panel hidden">
+        <h2 id="detail-title">—</h2>
+        <p><b>Adresse :</b> <span id="detail-address">—</span></p>
+        <p><b>Commune :</b> <span id="detail-town">—</span></p>
+        <p><b>Statut :</b> <span id="detail-status">—</span></p>
+        <p><b>Distance piste :</b> <span id="detail-distance">—</span></p>
+    </div>
+
+    <!-- ======================================================
+         MAP
+    ====================================================== -->
+    <div id="map"></div>
+
+    <!-- ======================================================
+         FLOATING BUTTONS
+    ====================================================== -->
+    <div class="floating-buttons">
+        <button id="toggle-heatmap" class="float-btn">Heatmap</button>
+        <button id="toggle-clusters" class="float-btn">Clusters</button>
+        <button id="play-history" class="float-btn">Historique</button>
+    </div>
+
+    <!-- ======================================================
+         DEBUG PANEL
+    ====================================================== -->
+    <div id="debug-panel" class="debug-panel">
+        <div>FPS : <span id="fps">0</span></div>
+        <div>CPU : <span id="cpu">0</span> ms</div>
+        <div>Render : <span id="render">0</span> ms</div>
+    </div>
+
+    <!-- ======================================================
+         JAVASCRIPT (ORDRE CORRIGÉ)
+    ====================================================== -->
+
+    <!-- Leaflet core -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- MarkerCluster -->
+    <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+
+    <!-- Heatmap plugin -->
+    <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+
+    <!-- PolylineDecorator plugin -->
+    <script src="https://unpkg.com/leaflet-polylinedecorator"></script>
+
+    <!-- App -->
+    <script type="module" src="./app.js?v=100"></script>
+
+</body>
+</html>
